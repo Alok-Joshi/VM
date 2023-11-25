@@ -4,7 +4,9 @@
 using namespace std;
 
 
-virtual_machine:: virtual_machine(): stack_pointer(-1), instruction_pointer(0) {}
+virtual_machine:: virtual_machine(): stack_pointer(-1), instruction_pointer(0) {
+    current_frame = new frame();
+}
 
 int virtual_machine:: read_instruction_opcode() {
 
@@ -30,6 +32,17 @@ void virtual_machine:: handle_dup_opcode() {
     stack_push(value);
 }
 
+void virtual_machine:: handle_store_opcode() {
+    int variable_name = byte_stream[instruction_pointer++];
+    int variable_value = stack_pop();
+    current_frame->set_variable(variable_name,variable_value);
+}
+
+void virtual_machine:: handle_load_opcode() {
+    int variable_name = byte_stream[instruction_pointer++];
+    int variable_value = current_frame->get_variable_value(variable_name);
+    stack_push(variable_value);
+}
 void virtual_machine:: handle_jmp_opcode() {
     int jmp_address = byte_stream[instruction_pointer++];
     instruction_pointer = jmp_address;
@@ -172,6 +185,12 @@ void virtual_machine:: run() {
             break;
         case JMP:
             handle_jmp_opcode();
+            break;
+        case STORE:
+            handle_store_opcode();
+            break;
+        case LOAD:
+            handle_load_opcode();
             break;
         case JIF:
             handle_jif_opcode();

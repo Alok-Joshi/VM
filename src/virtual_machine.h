@@ -1,6 +1,7 @@
 #ifndef VIRTUAL_MACHINE_H
 #define VIRTUAL_MACHINE_H
 #include <vector>
+#include "frame.h"
 
 enum instruction_set{
     HALT, //0
@@ -37,6 +38,7 @@ enum instruction_set{
 };
 
 
+
 class virtual_machine {
 
     private:
@@ -44,12 +46,15 @@ class virtual_machine {
         int instruction_pointer;
         std::vector<int> stack;
         int stack_pointer;
+        frame* current_frame;
 
     void handle_push_opcode();
     void handle_pop_opcode();
     void handle_dup_opcode();
     void handle_jmp_opcode();
     void handle_jif_opcode();
+    void handle_load_opcode();
+    void handle_store_opcode();
     void handle_binary_operator_opcode(instruction_set opcode);
     void handle_unary_operator_opcode(instruction_set opcode);
     void stack_push(int operand);
