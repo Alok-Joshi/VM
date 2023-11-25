@@ -4,7 +4,7 @@
 using namespace std;
 
 
-virtual_machine:: virtual_machine(): stack_pointer(0), instruction_pointer(0) {}
+virtual_machine:: virtual_machine(): stack_pointer(-1), instruction_pointer(0) {}
 
 int virtual_machine:: read_instruction_opcode() {
 
@@ -21,22 +21,54 @@ void virtual_machine:: load_instructions(vector<int> &byte_stream) {
     this->byte_stream = byte_stream;
 }
 
+void virtual_machine:: handle_add_opcode() {
+    int operand1 = stack_pop();
+    int operand2 = stack_pop();
+    int result = operand1 + operand2;
+    stack_push(result);
+}
+
+void virtual_machine:: handle_push_opcode() {
+    int operand = byte_stream[instruction_pointer++];
+    stack_push(operand);
+}
+
+void virtual_machine:: stack_push(int operand1) {
+    stack_pointer++;
+    stack.push_back(operand1);
+}
+
+
+int virtual_machine:: stack_pop() {
+
+    if(stack_pointer == -1) {
+        throw "empty stack";
+    }
+    int top_element = stack[stack_pointer];
+    stack.pop_back();
+    stack_pointer--;
+    return top_element;
+
+}
+
+
 void virtual_machine:: run() {
 
-    int current_instruction_opcode = read_instruction_opcode();
+    while(1) {
+        int current_instruction_opcode = read_instruction_opcode();
+        switch(current_instruction_opcode) {
 
-    switch(current_instruction_opcode) {
+        case HALT:
+            return;
+        case PUSH:
+            handle_push_opcode();
+            break;
+        case ADD:
+            handle_add_opcode();
+        case -1:
+            return;
 
-    case HALT:
-        cout<<"PROGRAM HALTED"<<endl;
-        return;
-    case PUSH:
-        break;
-    case POP:
-        break;
-    case -1:
-        return;
-
+        }
     }
 
 

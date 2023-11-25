@@ -5,7 +5,7 @@
 enum instruction_set{
     HALT, //0
     PUSH, //1
-    POP, //2
+    ADD, //3
 };
 
 
@@ -22,6 +22,10 @@ class virtual_machine {
     void run();
     int read_instruction_opcode();
     void load_instructions(std::vector<int>& byte_stream);
+    void handle_push_opcode();
+    void handle_add_opcode();
+    void stack_push(int operand);
+    int stack_pop();
 
 };
 
