@@ -26,6 +26,14 @@ enum instruction_set{
 
     //display
     PRINT, //13
+
+    //variables
+    LOAD, //14
+    STORE, //15
+
+    //branching
+    JMP, //16
+    JIF, //17
 };
 
 
@@ -40,6 +48,7 @@ class virtual_machine {
     void handle_push_opcode();
     void handle_pop_opcode();
     void handle_dup_opcode();
+    void handle_jmp_opcode();
     void handle_binary_operator_opcode(instruction_set opcode);
     void handle_unary_operator_opcode(instruction_set opcode);
     void stack_push(int operand);

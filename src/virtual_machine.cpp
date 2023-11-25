@@ -30,6 +30,11 @@ void virtual_machine:: handle_dup_opcode() {
     stack_push(value);
 }
 
+void virtual_machine:: handle_jmp_opcode() {
+    int jmp_address = byte_stream[instruction_pointer++];
+    instruction_pointer = jmp_address;
+}
+
 void virtual_machine:: handle_unary_operator_opcode(instruction_set opcode) {
     int operand1 = stack_pop();
     int result = 0;
@@ -152,6 +157,9 @@ void virtual_machine:: run() {
             break;
         case PRINT:
             cout<<stack_peek()<<endl;
+            break;
+        case JMP:
+            handle_jmp_opcode();
             break;
         case -1:  //instructions over
             return;
