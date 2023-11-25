@@ -133,17 +133,16 @@ void virtual_machine:: run() {
             handle_unary_operator_opcode(NOT);
             break;
         case POP:
-            handle_unary_operator_opcode(NOT);
+            handle_pop_opcode();
             break;
         case DUP:
-            handle_unary_operator_opcode(NOT);
+            handle_dup_opcode();
             break;
         case -1:
             return;
 
         }
     }
-
 
 
 }
