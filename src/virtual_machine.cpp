@@ -64,6 +64,12 @@ void virtual_machine:: handle_binary_operator_opcode(instruction_set opcode) {
     case AND:
         result = operand2 & operand1;
         break;
+    case ISEQ:
+        result = (operand2  == operand1);
+        break;
+    case ISGT:
+        result = (operand2 > operand1);
+        break;
 
     }
     stack_push(result);
@@ -137,6 +143,12 @@ void virtual_machine:: run() {
             break;
         case DUP:
             handle_dup_opcode();
+            break;
+        case ISEQ:
+            handle_binary_operator_opcode(ISEQ);
+            break;
+        case ISGT:
+            handle_binary_operator_opcode(ISGT);
             break;
         case -1:
             return;

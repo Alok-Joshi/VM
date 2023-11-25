@@ -18,7 +18,11 @@ enum instruction_set{
 
     //Stack management opcodes
     POP, //9
-    DUP //10
+    DUP, //10
+
+    //comparison operators
+    ISEQ, //11
+    ISGT, //12
 };
 
 
