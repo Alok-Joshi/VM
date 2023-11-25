@@ -23,6 +23,9 @@ enum instruction_set{
     //comparison operators
     ISEQ, //11
     ISGT, //12
+
+    //display
+    PRINT, //13
 };
 
 

@@ -150,7 +150,10 @@ void virtual_machine:: run() {
         case ISGT:
             handle_binary_operator_opcode(ISGT);
             break;
-        case -1:
+        case PRINT:
+            cout<<stack_peek()<<endl;
+            break;
+        case -1:  //instructions over
             return;
 
         }
