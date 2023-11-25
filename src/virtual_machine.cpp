@@ -35,6 +35,18 @@ void virtual_machine:: handle_jmp_opcode() {
     instruction_pointer = jmp_address;
 }
 
+void virtual_machine:: handle_jif_opcode() {
+
+    if(stack_peek() > 0) {
+        int jmp_address = byte_stream[instruction_pointer];
+        instruction_pointer = jmp_address;
+    }
+    else
+    {
+        instruction_pointer++;
+    }
+
+}
 void virtual_machine:: handle_unary_operator_opcode(instruction_set opcode) {
     int operand1 = stack_pop();
     int result = 0;
@@ -160,6 +172,9 @@ void virtual_machine:: run() {
             break;
         case JMP:
             handle_jmp_opcode();
+            break;
+        case JIF:
+            handle_jif_opcode();
             break;
         case -1:  //instructions over
             return;

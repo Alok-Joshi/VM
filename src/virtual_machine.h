@@ -49,6 +49,7 @@ class virtual_machine {
     void handle_pop_opcode();
     void handle_dup_opcode();
     void handle_jmp_opcode();
+    void handle_jif_opcode();
     void handle_binary_operator_opcode(instruction_set opcode);
     void handle_unary_operator_opcode(instruction_set opcode);
     void stack_push(int operand);
