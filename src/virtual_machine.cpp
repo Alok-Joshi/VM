@@ -21,23 +21,39 @@ void virtual_machine:: load_instructions(vector<int> &byte_stream) {
     this->byte_stream = byte_stream;
 }
 
-void virtual_machine:: handle_operator(char m_operator) {
+void virtual_machine:: handle_unary_operator_opcode(instruction_set opcode) {
+    int operand1 = stack_pop();
+    int result = 0;
+
+    switch(opcode) {
+    case NOT:
+        result = !operand1;
+        break;
+    }
+
+    stack_push(result);
+}
+
+void virtual_machine:: handle_binary_operator_opcode(instruction_set opcode) {
     int operand1 = stack_pop();
     int operand2 = stack_pop();
     int result = 0;
-    switch(m_operator) {
+    switch(opcode) {
 
-    case '+':
+    case ADD:
         result = operand2 + operand1;
         break;
-    case '-':
+    case SUB:
         result = operand2 - operand1;
         break;
-    case '*':
+    case MULT:
         result = operand2 * operand1;
         break;
-    case '/':
+    case DIV:
         result = operand2 / operand1;
+        break;
+    case AND:
+        result = operand2 & operand1;
         break;
 
     }
@@ -80,16 +96,22 @@ void virtual_machine:: run() {
             handle_push_opcode();
             break;
         case ADD:
-            handle_operator('+');
+            handle_binary_operator_opcode(ADD);
             break;
         case SUB:
-            handle_operator('-');
+            handle_binary_operator_opcode(SUB);
             break;
         case MULT:
-            handle_operator('*');
+            handle_binary_operator_opcode(MULT);
             break;
         case DIV:
-            handle_operator('/');
+            handle_binary_operator_opcode(DIV);
+            break;
+        case AND:
+            handle_binary_operator_opcode(AND);
+            break;
+        case NOT:
+            handle_unary_operator_opcode(NOT);
             break;
         case -1:
             return;

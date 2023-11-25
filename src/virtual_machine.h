@@ -11,6 +11,10 @@ enum instruction_set{
     SUB, //4
     MULT, //5
     DIV, //6
+
+    //logical operators
+    NOT, //7
+    AND, //8
 };
 
 
@@ -23,7 +27,8 @@ class virtual_machine {
         int stack_pointer;
 
     void handle_push_opcode();
-    void handle_operator(char m_operator);
+    void handle_binary_operator_opcode(instruction_set opcode);
+    void handle_unary_operator_opcode(instruction_set opcode);
     void stack_push(int operand);
     int stack_pop();
     public:
