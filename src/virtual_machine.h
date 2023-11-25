@@ -15,6 +15,10 @@ enum instruction_set{
     //logical operators
     NOT, //7
     AND, //8
+
+    //Stack management opcodes
+    POP, //9
+    DUP //10
 };
 
 
@@ -27,10 +31,13 @@ class virtual_machine {
         int stack_pointer;
 
     void handle_push_opcode();
+    void handle_pop_opcode();
+    void handle_dup_opcode();
     void handle_binary_operator_opcode(instruction_set opcode);
     void handle_unary_operator_opcode(instruction_set opcode);
     void stack_push(int operand);
     int stack_pop();
+    int stack_peek();
     public:
     virtual_machine();
     void run();
