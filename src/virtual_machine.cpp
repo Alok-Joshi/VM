@@ -5,7 +5,8 @@ using namespace std;
 
 
 virtual_machine:: virtual_machine(): stack_pointer(-1), instruction_pointer(0) {
-    current_frame = new frame();
+    frame new_frame(0);
+    frames.push_back(new_frame);
 }
 
 int virtual_machine:: read_instruction_opcode() {
@@ -30,6 +31,26 @@ void virtual_machine:: handle_pop_opcode() {
 void virtual_machine:: handle_dup_opcode() {
     int value = stack_peek();
     stack_push(value);
+}
+
+void virtual_machine:: handle_call_opcode() {
+    //saving the current address in the current frame
+    frame& current_frame = frames[frames.size()-1];
+    current_frame.return_address = instruction_pointer + 2; // you dont want it to execute the call instruction again. + 2 because ip +1 is the operand here, ip+2 is the next instruction
+
+    //setting up the new frame in call stack
+    instruction_pointer++; //to get the CALL operand: the address
+    int function_start_address = byte_stream[instruction_pointer];
+    frame new_frame(function_start_address);
+    frames.push_back(new_frame);
+
+    instruction_pointer = function_start_address;
+}
+
+void virtual_machine:: handle_ret_opcode() {
+    frames.pop_back();
+    frame& current_frame = frames[frames.size()-1];
+    instruction_pointer = current_frame.return_address;
 }
 
 void virtual_machine:: handle_store_opcode() {

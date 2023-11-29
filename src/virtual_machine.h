@@ -35,6 +35,10 @@ enum instruction_set{
     //branching
     JMP, //16
     JIF, //17
+
+    //function calls
+    CALL, //18
+    RET //19
 };
 
 
@@ -46,7 +50,7 @@ class virtual_machine {
         int instruction_pointer;
         std::vector<int> stack;
         int stack_pointer;
-        frame* current_frame;
+        std::vector<frame> frames;
 
     void handle_push_opcode();
     void handle_pop_opcode();
@@ -55,6 +59,8 @@ class virtual_machine {
     void handle_jif_opcode();
     void handle_load_opcode();
     void handle_store_opcode();
+    void handle_call_opcode();
+    void handle_ret_opcode();
     void handle_binary_operator_opcode(instruction_set opcode);
     void handle_unary_operator_opcode(instruction_set opcode);
     void stack_push(int operand);

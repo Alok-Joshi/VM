@@ -2,6 +2,7 @@
 
 using namespace std;
 
+frame:: frame(int return_address): return_address(return_address) {}
 int frame:: get_variable_value(int variable_name) {
     return variable_store[variable_name];
 }
